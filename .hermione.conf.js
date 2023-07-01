@@ -2,6 +2,7 @@ module.exports = {
   sets: {
     desktop: {
       files: "test/hermione",
+      browsers: ['chrome']
     },
   },
 
@@ -16,6 +17,7 @@ module.exports = {
   plugins: {
     "html-reporter/hermione": {
       enabled: true,
+      path: 'hermione-html-reports',
     },
   },
 };
