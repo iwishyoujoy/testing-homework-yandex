@@ -66,20 +66,26 @@ describe('Корзина: ', () => {
         const [page] = await puppeteer.pages();
         await page.goto('http://localhost:3000/hw/store/catalog/0', { timeout: 5000 });
 
-        document.querySelector('.ProductDetails-AddToCart').click(); // добавляем элемент в корзину
-        await page.goto('http://localhost:3000/hw/store/cart');
-        
-        document.querySelector('.Form-Field_type_name').focus(); // вводим корректные данные
+        await page.evaluate(async () => {
+            document.querySelector('.ProductDetails-AddToCart').click(); // добавляем элемент в корзину
+        });
+
+        await page.goto('http://localhost:3000/hw/store/cart?bug_id=8');
+
+        await page.evaluate(async () => {
+            document.querySelector('.Form-Field_type_name').focus(); // вводим корректные данные
+        })
         await page.keyboard.type('Darya');
-        
         await page.keyboard.press('Tab');
         await page.keyboard.type('88005553535');
-
+    
         await page.keyboard.press('Tab');
         await page.keyboard.type('hello');
 
-        document.querySelector('.Form-Submit').click(); // отправляем форму
-
+        await page.evaluate(async () => {
+            document.querySelector('.Form-Submit').click(); // отправляем форму
+        })
+        
         await browser.assertView('final card of order', '.Cart', { ignoreElements: [ // проверяем правильность плашки
             '.Cart-Number',
         ] });

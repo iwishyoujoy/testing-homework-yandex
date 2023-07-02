@@ -51,7 +51,7 @@ describe('Общие требования:', async function() {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
         await page.goto('http://localhost:3000/hw/store/');
-        await page.waitForSelector(".navbar", { timeout: 5000});
+        await page.waitForSelector('.navbar', { timeout: 5000});
         const navbarBrandTitle = await page.evaluate(() => {
             const navbarBrand = document.querySelector('.navbar-brand');
             return navbarBrand.getAttribute('href');
