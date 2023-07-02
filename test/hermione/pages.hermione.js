@@ -1,8 +1,10 @@
+const {getUrlWithBug} = require("./helper/utils");
+
 describe('Проверка существования страниц', () => {
     it('главная страница отвечает 200', async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'));
         const response = await page.evaluate(async () => {
             const res = await fetch('/hw/store/');
             return res.status;
@@ -13,7 +15,7 @@ describe('Проверка существования страниц', () => {
     it('страница каталога отвечает 200', async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/catalog');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/catalog'));
         const response = await page.evaluate(async () => {
             const res = await fetch('/hw/store/catalog');
             return res.status;
@@ -24,7 +26,7 @@ describe('Проверка существования страниц', () => {
     it('страница условий доставки отвечает 200', async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/delivery');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/delivery'));
         const response = await page.evaluate(async () => {
             const res = await fetch('/hw/store/delivery');
             return res.status;
@@ -35,7 +37,7 @@ describe('Проверка существования страниц', () => {
     it('страница контактов отвечает 200', async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/contacts');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/contacts'));
         const response = await page.evaluate(async () => {
             const res = await fetch('/hw/store/contacts');
             return res.status;
@@ -68,10 +70,10 @@ describe('Корзина: ', () => {
 
         document.querySelector('.ProductDetails-AddToCart').click(); // добавляем элемент в корзину
         await page.goto('http://localhost:3000/hw/store/cart');
-        
+
         document.querySelector('.Form-Field_type_name').focus(); // вводим корректные данные
         await page.keyboard.type('Darya');
-        
+
         await page.keyboard.press('Tab');
         await page.keyboard.type('88005553535');
 

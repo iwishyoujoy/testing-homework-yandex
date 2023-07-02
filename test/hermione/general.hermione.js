@@ -1,19 +1,20 @@
 //npm run test:unit
-const BUG_ID = process.env.BUG_ID;
 
-const getUrlWithBug = (url) => {
-    if (BUG_ID) {
-        return url + "?bug_id=" + BUG_ID;
-    }
 
-    return url;
-}
+const {getUrlWithBug} = require("./helper/utils");
 
 describe('Общие требования:', async function() {
+	it('прогревочный тест', async function({ browser }) {
+        const puppeteer = await browser.getPuppeteer();
+        const [page] = await puppeteer.pages();
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'), {timeout: 8000});
+
+    });
+
     it('вёрстка должна адаптироваться под ширину экрана', async function({ browser }) {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'));
         
         // Установка ширины экрана
         await page.setViewport({ width: 1200, height: 500 });
@@ -29,7 +30,7 @@ describe('Общие требования:', async function() {
     it('в шапке отображаются ссылки на страницы магазина, а также ссылка на корзину', async function({browser}) {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'));
         await page.waitForSelector(".navbar", { timeout: 5000});
         await browser.assertView('navbar', '.navbar');
 
@@ -50,7 +51,7 @@ describe('Общие требования:', async function() {
     it('название магазина в шапке должно быть ссылкой на главную страницу', async function({browser}) {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'));
         await page.waitForSelector(".navbar", { timeout: 5000});
         const navbarBrandTitle = await page.evaluate(() => {
             const navbarBrand = document.querySelector('.navbar-brand');
@@ -64,7 +65,7 @@ describe('Общие требования:', async function() {
     it('на ширине меньше 576px навигационное меню должно скрываться за "гамбургер"', async function({browser}) {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'));
         await page.setViewport({ width: 575, height: 500 });
         const isMenuHidden = await page.evaluate(async () => {
             const navbarButton = document.querySelector('.navbar-toggler');
@@ -77,7 +78,7 @@ describe('Общие требования:', async function() {
     it('при выборе элемента из меню "гамбургера", меню должно закрываться', async function({ browser }) {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'));
         await page.setViewport({ width: 575, height: 500 });
         await page.click('.navbar-toggler');
         await page.click('.nav-link');
