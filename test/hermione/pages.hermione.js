@@ -50,7 +50,7 @@ describe('Каталог:', () => {
     it('верстка страницы товара не меняется', async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
-        await page.goto('http://localhost:3000/hw/store/catalog/1?bug_id=9');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/catalog/0'));
         await page.waitForSelector(".Product", { timeout: 5000});
         await browser.assertView('product details', '.Product', { ignoreElements: [
             '.ProductDetails-Name',
@@ -72,7 +72,7 @@ describe('Корзина: ', () => {
             document.querySelector('.ProductDetails-AddToCart').click(); // добавляем элемент в корзину
         });
 
-        await page.goto('http://localhost:3000/hw/store/cart?bug_id=8');
+        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/cart'));
 
         await page.evaluate(async () => {
             document.querySelector('.Form-Field_type_name').focus(); // вводим корректные данные
