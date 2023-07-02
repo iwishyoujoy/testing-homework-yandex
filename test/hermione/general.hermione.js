@@ -4,12 +4,6 @@
 const {getUrlWithBug} = require("./helper/utils");
 
 describe('Общие требования:', async function() {
-	it('прогревочный тест', async function({ browser }) {
-        const puppeteer = await browser.getPuppeteer();
-        const [page] = await puppeteer.pages();
-        await page.goto(getUrlWithBug('http://localhost:3000/hw/store/'), {timeout: 8000});
-
-    });
 
     it('вёрстка должна адаптироваться под ширину экрана', async function({ browser }) {
         const puppeteer = await browser.getPuppeteer();
@@ -37,8 +31,7 @@ describe('Общие требования:', async function() {
         const headerLinks = await page.evaluate(() => {
             const header = document.querySelector('.navbar');
             const links = header.querySelectorAll('a');
-            const hrefs = Array.from(links).map(link => link.getAttribute('href'));
-            return hrefs;
+            return Array.from(links).map(link => link.getAttribute('href'));
         });
 
         console.log(`Найденные ссылки: ${headerLinks}`);

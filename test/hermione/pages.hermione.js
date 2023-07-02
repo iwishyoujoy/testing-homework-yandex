@@ -94,4 +94,40 @@ describe('Корзина: ', () => {
         ] });
 
     });
+
+    it('при обновлении страницы с корзиной данные не меняются', async ({ browser }) => {
+        const puppeteer = await browser.getPuppeteer();
+        const [page] = await puppeteer.pages();
+        await page.goto('http://localhost:3000/hw/store/catalog/0', { timeout: 5000 });
+
+        await page.evaluate(async () => {
+            document.querySelector('.ProductDetails-AddToCart').click(); // добавляем элемент в корзину
+        });
+
+        const productName = await page.evaluate(async () => {
+            return document.querySelector('.ProductDetails-Name').textContent;
+        });
+
+        const productPrice = await page.evaluate(async () => {
+            return document.querySelector('.ProductDetails-Price').textContent;
+        });
+
+        await page.evaluate(async () => {
+            await document.querySelector("#root > div > nav > div > div > div > a:nth-child(4)").click() // переходим в корзину
+        });
+
+        await browser.refresh();
+
+        const cartProductName = await page.evaluate(async () => {
+            return document.querySelector('.Cart-Name').textContent;
+        });
+
+        const cartProductPrice = await page.evaluate(async () => {
+            return document.querySelector('.Cart-Price').textContent;
+        });
+
+        expect(cartProductName).toBe(productName)
+        expect(cartProductPrice).toBe(productPrice)
+
+    });
 })
